@@ -24,19 +24,19 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err,client) => {
   //
   // })
 
-  // db.collection('Users').insertOne({
-  //
-  //   name:'Shotaro',
-  //   age:21,
-  //   location:'Tokyo'
-  //
-  // },(err,result) => {
-  //   if (err) {
-  //     console.log('Unable to insert user:',err);
-  //   }
-  //   // console.log(JSON.stringify(result.ops,undefined,2));
-  //   console.log(result.ops[0]._id.getTimestamp());
-  // })
+  db.collection('Users').insertOne({
+
+    name:'Shotaro',
+    age:21,
+    location:'Tokyo'
+
+  },(err,result) => {
+    if (err) {
+      console.log('Unable to insert user:',err);
+    }
+    // console.log(JSON.stringify(result.ops,undefined,2));
+    console.log(result.ops[0]._id.getTimestamp());
+  })
 
 
 
