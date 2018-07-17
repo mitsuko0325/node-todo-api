@@ -1,3 +1,6 @@
+// 使う環境（development,test,heroku）によって使うデータベースを変えるコード
+// require('./config/config.js')
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
