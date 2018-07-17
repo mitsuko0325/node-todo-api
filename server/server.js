@@ -2,21 +2,29 @@
 // require('./config/config.js')
 
 const express = require('express');
+const app = express();
 const bodyParser = require('body-parser');
 const _ = require('lodash');
+const hbs = require('hbs');
+// Heroku用の設定
+const port = process.env.PORT || 3000
+
 
 var {mongoose} = require('./db/mongoose.js');
 var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
 var {ObjectID} = require('mongodb');
 
-const app = express();
 
-// Heroku用の設定
-const port = process.env.PORT || 3000
+app.set('view engine','hbs')
 
+// POSTをJSONで受け取る？変換？　よくわからん
 app.use(bodyParser.json());
 
+// 静的ファイルの登録
+app.use('/public',express.static(__dirname + '/public'));
+
+// todoを保存する
 app.post('/todos',(req,res) => {
   var todo = new Todo({
     text:req.body.text
@@ -30,6 +38,7 @@ app.post('/todos',(req,res) => {
   });
 });
 
+// todoを全部取得
 app.get('/todos',(req,res) => {
   Todo.find().then((todos) => {
     // todosをオブジェクトで使う
@@ -41,7 +50,7 @@ app.get('/todos',(req,res) => {
   })
 });
 
-// GET /todos/12345
+// todoをidで検索し取得
 app.get('/todos/:id',(req,res) => {
 
   //valid id useing isValid
@@ -74,6 +83,7 @@ app.get('/todos/:id',(req,res) => {
   });
 });
 
+// todoを消す
 app.delete('/todos/:id',(req,res) => {
 
   // get the id
@@ -104,6 +114,7 @@ app.delete('/todos/:id',(req,res) => {
   });
 });
 
+// todoをアップデート
 app.patch('/todos/:id',(req,res) => {
   var id = req.params.id
   var body = _.pick(req.body,['text','completed']);
